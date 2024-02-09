@@ -1,7 +1,5 @@
 package com.springcourse.sectiontwo.springstudypartone;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SpringstudypartoneApplication {
 
-	@Value("${aplication.name}")
-	private String applicationName; //faz a injeção no valor da variavel
+	@Value("${application.name}")
+	private String applicationName;
 
 	@GetMapping("/hello")
 	public String helloWord(){
