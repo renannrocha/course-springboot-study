@@ -17,6 +17,8 @@ public class SpringdatastudyApplication {
 	@Bean
 	public CommandLineRunner init(@Autowired ClienteRepository clientes){
 		return args -> {
+			System.out.println("\ninserindo clientes\n");
+
 			Cliente cliente = new Cliente();
 			cliente.setName("Renan");
 			clientes.salvarCliente(cliente);
@@ -27,6 +29,33 @@ public class SpringdatastudyApplication {
 
 			List<Cliente> allClients = clientes.listarClientes();
 			allClients.forEach(System.out::println);
+
+			System.out.println("\natualizando clientes\n");
+
+			allClients.forEach(c -> {
+				c.setName(c.getName() + " atualizado");
+				clientes.atualizarClente(c);
+			});
+
+			allClients = clientes.listarClientes();
+			allClients.forEach(System.out::println);
+
+			System.out.println("\nbuscando clientes\n");
+
+			clientes.listarPorNome("Fer").forEach(System.out::println);
+
+			System.out.println("\natualizando clientes\n");
+
+			clientes.listarClientes().forEach( c -> {
+				clientes.deletarCliente(c);
+			});
+
+			allClients = clientes.listarClientes();
+			if (allClients.isEmpty()){
+				System.out.println("nenhum cliente encontrado");
+			} else {
+				allClients.forEach(System.out::println);
+			}
 		};
 	}
 

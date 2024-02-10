@@ -15,10 +15,10 @@ import java.util.List;
 public class ClienteRepository {
 
     // queries
-    private static String INSERT = "insert into cliente (nome) values (?)";
-    private static String SELECT_ALL = "select * from cliente";
-    private static String DELETE = "";
-    private static String UPDATE = "";
+    private static String INSERT = "insert into cliente (nome) values (?) ";
+    private static String SELECT_ALL = "select * from cliente ";
+    private static String DELETE = "delete from cliente where id = ? ";
+    private static String UPDATE = "update cliente set nome = ? where id = ? ";
 
     //JDBC template
     @Autowired
@@ -32,9 +32,41 @@ public class ClienteRepository {
         return cliente;
     }
 
+    //update
+    public Cliente atualizarClente(Cliente cliente){
+        jdbcTemplate.update(UPDATE, new Object[]{
+                cliente.getName(),
+                cliente.getId()
+        });
+        return cliente;
+    }
+
+    //delete
+    public void deletarCliente(Cliente cliente){
+        deletarClienteById(cliente.getId());
+    }
+
+    // delete by id
+    public void deletarClienteById(Integer id) {
+        jdbcTemplate.update(DELETE, new Object[]{id});
+    }
+
+    //listar por nome
+    public List<Cliente> listarPorNome(String nome){
+        return jdbcTemplate.query(
+                SELECT_ALL.concat("where nome like ?"),
+                new Object[]{"%" + nome + "%"},
+                obterClienteMapper()
+        );
+    }
+
     //list
     public List<Cliente> listarClientes (){
-        return jdbcTemplate.query(SELECT_ALL, new RowMapper<Cliente>() {
+        return jdbcTemplate.query(SELECT_ALL, obterClienteMapper());
+    }
+
+    private static RowMapper<Cliente> obterClienteMapper() {
+        return new RowMapper<Cliente>() {
             @Override
             public Cliente mapRow(ResultSet resultSet, int rowNum) throws SQLException {
                 // table id e nome
@@ -42,6 +74,6 @@ public class ClienteRepository {
                 String nome = resultSet.getString("nome");
                 return new Cliente(id, nome);
             }
-        });
+        };
     }
 }
