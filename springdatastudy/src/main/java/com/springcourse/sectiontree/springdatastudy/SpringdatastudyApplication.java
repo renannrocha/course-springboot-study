@@ -19,38 +19,37 @@ public class SpringdatastudyApplication {
 		return args -> {
 			System.out.println("\ninserindo clientes\n");
 
-			Cliente cliente = new Cliente();
-			cliente.setName("Renan");
-			clientes.salvarCliente(cliente);
+			clientes.save(new Cliente("Renan"));
+			clientes.save(new Cliente("Fernando"));
+			clientes.save(new Cliente("Jóse"));
+			clientes.save(new Cliente("Gabriel"));
+			clientes.save(new Cliente("Maria"));
 
-			Cliente cliente2 = new Cliente();
-			cliente2.setName("Fernando");
-			clientes.salvarCliente(cliente2);
 
-			List<Cliente> allClients = clientes.listarClientes();
+			List<Cliente> allClients = clientes.findAll();
 			allClients.forEach(System.out::println);
 
 			System.out.println("\natualizando clientes\n");
 
 			allClients.forEach(c -> {
 				c.setName(c.getName() + " atualizado");
-				clientes.atualizarClente(c);
+				clientes.save(c);
 			});
 
-			allClients = clientes.listarClientes();
+			allClients = clientes.findAll();
 			allClients.forEach(System.out::println);
 
 			System.out.println("\nbuscando clientes\n");
 
-			clientes.listarPorNome("Fer").forEach(System.out::println);
+			clientes.findByNameLike("Fer").forEach(System.out::println);
 
 			System.out.println("\natualizando clientes\n");
 
-			clientes.listarClientes().forEach( c -> {
-				clientes.deletarCliente(c);
+			clientes.findAll().forEach( c -> {
+				clientes.delete(c);
 			});
 
-			allClients = clientes.listarClientes();
+			allClients = clientes.findAll();
 			if (allClients.isEmpty()){
 				System.out.println("nenhum cliente encontrado");
 			} else {

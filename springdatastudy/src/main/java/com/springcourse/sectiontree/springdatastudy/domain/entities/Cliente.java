@@ -22,8 +22,7 @@ public class Cliente implements Serializable {
     public Cliente(){
     }
 
-    public Cliente(Integer id, String name) {
-        this.id = id;
+    public Cliente(String name) {
         this.name = name;
     }
 
