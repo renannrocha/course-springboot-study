@@ -30,7 +30,7 @@ public class SpringdatastudyApplication {
 			List<Cliente> allClients = clientes.listarClientes();
 			allClients.forEach(System.out::println);
 
-			System.out.println("\natualizando clientes\n");
+			/*System.out.println("\natualizando clientes\n");
 
 			allClients.forEach(c -> {
 				c.setName(c.getName() + " atualizado");
@@ -55,7 +55,7 @@ public class SpringdatastudyApplication {
 				System.out.println("nenhum cliente encontrado");
 			} else {
 				allClients.forEach(System.out::println);
-			}
+			}*/
 		};
 	}
 
