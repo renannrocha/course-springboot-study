@@ -1,11 +1,22 @@
 package com.springcourse.sectiontree.springdatastudy.domain.entities;
 
+
+
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
+@Entity
+@Table(name = "tb_cliente")
 public class Cliente implements Serializable {
     private static final Long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "nome", length = 100)
     private String name;
 
     public Cliente(){
