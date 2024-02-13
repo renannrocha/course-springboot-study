@@ -5,6 +5,7 @@ package com.springcourse.sectiontree.springdatastudy.domain.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_cliente")
@@ -19,11 +20,18 @@ public class Cliente implements Serializable {
     @Column(name = "nome", length = 100)
     private String name;
 
+    @OneToMany(mappedBy = "cliente")
+    private Set<Pedido> pedidos;
+
     public Cliente(){
     }
 
     public Cliente(String name) {
         this.name = name;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     public Integer getId() {

@@ -1,13 +1,23 @@
 package com.springcourse.sectiontree.springdatastudy.domain.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "tb_produto")
 public class Produto implements Serializable {
     private static final Long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (name = "id")
     private Integer id;
+    @Column (name = "descricap")
     private String descricao;
+
+    @Column(name = "preco_unitario")
     private BigDecimal preco;
 
     public Produto(){
