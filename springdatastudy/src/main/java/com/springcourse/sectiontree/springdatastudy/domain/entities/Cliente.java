@@ -20,7 +20,7 @@ public class Cliente implements Serializable {
     @Column(name = "nome", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
     public Cliente(){
@@ -30,8 +30,8 @@ public class Cliente implements Serializable {
         this.name = name;
     }
 
-    public void setPedidos(Set<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public Set<Pedido> getPedidos() {
+        return pedidos;
     }
 
     public Integer getId() {
