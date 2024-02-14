@@ -1,61 +1,43 @@
 package com.springcourse.sectiontree.springdatastudy;
 
 import com.springcourse.sectiontree.springdatastudy.domain.entities.Cliente;
+import com.springcourse.sectiontree.springdatastudy.domain.entities.Pedido;
 import com.springcourse.sectiontree.springdatastudy.domain.repositories.ClienteRepository;
+import com.springcourse.sectiontree.springdatastudy.domain.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringdatastudyApplication {
 
 	//test
 	@Bean
-	public CommandLineRunner init(@Autowired ClienteRepository clientes){
+	public CommandLineRunner init(@Autowired ClienteRepository clientes, @Autowired PedidoRepository pedidos){
 		return args -> {
 			System.out.println("\ninserindo clientes\n");
 
-			Cliente cliente = new Cliente();
-			cliente.setName("Renan");
-			clientes.salvarCliente(cliente);
+			Cliente c1 = new Cliente("José Fernado Vieira");
+			clientes.save(c1);
 
-			Cliente cliente2 = new Cliente();
-			cliente2.setName("Fernando");
-			clientes.salvarCliente(cliente2);
+			Pedido p = new Pedido();
+			p.setCliente(c1);
+			p.setDataPedido(LocalDate.now());
+			p.setTotal(BigDecimal.valueOf(100));
+			pedidos.save(p);
 
-			List<Cliente> allClients = clientes.listarClientes();
-			allClients.forEach(System.out::println);
+			/*Cliente cliente1 = clientes.findClienteFetchPedidos(c1.getId());
+			System.out.println(cliente1);
+			System.out.println(cliente1.getPedidos());*/
 
-			System.out.println("\natualizando clientes\n");
-
-			allClients.forEach(c -> {
-				c.setName(c.getName() + " atualizado");
-				clientes.atualizarClente(c);
-			});
-
-			allClients = clientes.listarClientes();
-			allClients.forEach(System.out::println);
-
-			System.out.println("\nbuscando clientes\n");
-
-			clientes.listarPorNome("Fer").forEach(System.out::println);
-
-			System.out.println("\natualizando clientes\n");
-
-			clientes.listarClientes().forEach( c -> {
-				clientes.deletarCliente(c);
-			});
-
-			allClients = clientes.listarClientes();
-			if (allClients.isEmpty()){
-				System.out.println("nenhum cliente encontrado");
-			} else {
-				allClients.forEach(System.out::println);
-			}
+			pedidos.findByCliente(c1).forEach(System.out::println);
 		};
 	}
 
