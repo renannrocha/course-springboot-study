@@ -1,27 +1,36 @@
 package com.springcourse.sectionfour.springApiRestfulStudy.rest.controller;
 
 import com.springcourse.sectionfour.springApiRestfulStudy.domain.entites.Cliente;
+import com.springcourse.sectionfour.springApiRestfulStudy.domain.repositories.ClienteRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/api/clientes")
 public class ClienteController {
 
-    @RequestMapping(
-            value = "/hello/{nome}",
-            method = RequestMethod.GET,
-            // forma de como recebemos um objeto
-            consumes = {"aplication/json" , "aplication/xml"}, // faz mais sentido com metodo POST,
-            // forma de retorno dos nossos objetos
-            produces = {"aplication/json" , "aplication/xml"}
-    )
+    private ClienteRepository repository;
+
+    public ClienteController(ClienteRepository clienteRepository){
+        this.repository = clienteRepository;
+    }
+
+    @GetMapping(value = "/{id}")
     @ResponseBody
-    public String helloClientes (@PathVariable("nome") String nomeCliente){
-        return String.format("Hello %s ", nomeCliente);
+    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id){
+        // Optional pois ele pode ou não ter um cliente.
+        Optional<Cliente> cliente = repository.findById(id);
+        if(cliente.isPresent()){
+            // ok() retorna o codigo de estado 200
+            return ResponseEntity.ok(cliente.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
