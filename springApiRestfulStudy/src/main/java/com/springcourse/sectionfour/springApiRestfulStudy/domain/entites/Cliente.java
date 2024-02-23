@@ -1,5 +1,6 @@
 package com.springcourse.sectionfour.springApiRestfulStudy.domain.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,7 +19,8 @@ public class Cliente implements Serializable {
 
     @Column(name = "nome")
     private String name;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
 

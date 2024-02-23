@@ -2,12 +2,10 @@ package com.springcourse.sectionfour.springApiRestfulStudy.rest.controller;
 
 import com.springcourse.sectionfour.springApiRestfulStudy.domain.entites.Cliente;
 import com.springcourse.sectionfour.springApiRestfulStudy.domain.repositories.ClienteRepository;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -32,5 +30,13 @@ public class ClienteController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity save( @RequestBody Cliente cliente ){
+        Cliente clienteSalvo = repository.save(cliente);
+        return ResponseEntity.ok(clienteSalvo);
+    }
+
 
 }
