@@ -22,10 +22,8 @@ public class ClienteController {
     @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id){
-        // Optional pois ele pode ou não ter um cliente.
         Optional<Cliente> cliente = repository.findById(id);
         if(cliente.isPresent()){
-            // ok() retorna o codigo de estado 200
             return ResponseEntity.ok(cliente.get());
         }
         return ResponseEntity.notFound().build();
@@ -38,5 +36,14 @@ public class ClienteController {
         return ResponseEntity.ok(clienteSalvo);
     }
 
-
+    @DeleteMapping(value = "/{id}")
+    @ResponseBody
+    public ResponseEntity delete(@PathVariable Integer id){
+        Optional<Cliente> cliente = repository.findById(id);
+        if(cliente.isPresent()){
+            repository.delete(cliente.get());
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
