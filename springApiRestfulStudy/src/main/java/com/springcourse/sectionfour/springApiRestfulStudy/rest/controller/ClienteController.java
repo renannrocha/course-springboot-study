@@ -3,10 +3,13 @@ package com.springcourse.sectionfour.springApiRestfulStudy.rest.controller;
 import com.springcourse.sectionfour.springApiRestfulStudy.domain.entites.Cliente;
 import com.springcourse.sectionfour.springApiRestfulStudy.domain.repositories.ClienteRepository;
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -55,5 +58,16 @@ public class ClienteController {
             repository.save(cliente);
             return ResponseEntity.ok().build();
         }).orElseGet( () -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity find(Cliente filtro){
+        ExampleMatcher matcher = ExampleMatcher
+                                        .matching()
+                                        .withIgnoreCase()
+                                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example example = Example.of(filtro, matcher);
+        List<Cliente> lista = repository.findAll(example);
+        return ResponseEntity.ok(lista);
     }
 }
