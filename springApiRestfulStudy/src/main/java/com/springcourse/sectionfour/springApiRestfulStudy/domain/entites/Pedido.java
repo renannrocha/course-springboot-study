@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class Pedido implements Serializable {
     private BigDecimal total;
 
     @OneToMany(mappedBy = "pedido")
-    Set<ItemPedido> items;
+    List<ItemPedido> items;
 
     public Pedido(Cliente cliente, LocalDate dataPedido, BigDecimal total) {
         this.cliente = cliente;
